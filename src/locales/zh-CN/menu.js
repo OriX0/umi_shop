@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-08 16:08:04
+ * @LastEditTime: 2021-05-12 00:22:24
  */
 export default {
   'menu.welcome': '欢迎',
@@ -15,7 +15,6 @@ export default {
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register.result': '注册结果',
-  'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': '分析页',
   'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',
@@ -59,4 +58,5 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.dashboard': '数据统计',
   'menu.userList': '用户管理',
+  'menu.goodManage': '商品管理',
 };

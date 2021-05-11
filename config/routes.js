@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-08 17:31:44
+ * @LastEditTime: 2021-05-11 20:21:46
  */
 export default [
   {
@@ -46,6 +46,12 @@ export default [
                 name: 'userList',
                 icon: 'TeamOutlined',
                 component: '@/Pages/UserList',
+              },
+              {
+                path: '/goodManage',
+                name: 'goodManage',
+                icon: 'DatabaseOutlined',
+                component: '@/Pages/CommodityManagement',
               },
               {
                 component: './404',
