@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-06 14:21:54
+ * @LastEditTime: 2021-05-08 17:31:44
  */
 export default [
   {
@@ -33,7 +33,19 @@ export default [
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/dashboard',
+              },
+              {
+                path: '/dashboard',
+                name: 'dashboard',
+                icon: 'DashboardOutlined',
+                component: '@/Pages/Dashboard',
+              },
+              {
+                path: '/userList',
+                name: 'userList',
+                icon: 'TeamOutlined',
+                component: '@/Pages/UserList',
               },
               {
                 component: './404',

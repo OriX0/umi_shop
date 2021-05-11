@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Version: 1.0
+ * @Author: OriX
+ * @Date: 2021-05-05 21:01:35
+ * @LastEditors: OriX
+ * @LastEditTime: 2021-05-08 16:08:04
+ */
 export default {
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
@@ -49,4 +57,6 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.dashboard': '数据统计',
+  'menu.userList': '用户管理',
 };

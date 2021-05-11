@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-06 20:28:51
+ * @LastEditTime: 2021-05-09 14:44:54
  */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
@@ -39,9 +39,9 @@ const errorHandler = async (error) => {
     const { status } = response;
     let result = await response.json();
     if (status === 422) {
-      const { erros } = result;
-      for (let key in erros) {
-        errorText += erros[key];
+      const { errors } = result;
+      for (let key in errors) {
+        errorText += errors[key];
       }
     }
     if (status === 400) {
@@ -66,13 +66,13 @@ const request = extend({
 });
 // *** 请求拦截器 请求前
 request.interceptors.request.use((url, options) => {
-  const Token = 'hello';
-  const header = {
+  const Token = localStorage.getItem('access_token') || '';
+  const headers = {
     Authorization: `Bearer ${Token}`,
   };
   return {
     url,
-    options: { ...options, header },
+    options: { ...options, headers },
   };
 });
 export default request;
