@@ -4,8 +4,6 @@ import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { getUserList, changeUserLock } from '@/services/user';
-import Create from './components/Create';
-import Edit from './components/Edit';
 import CreateOrEdit from './components/CreateOrEdit';
 
 const UserList = () => {
@@ -13,7 +11,6 @@ const UserList = () => {
   // 函数---调用services接口获取全部用户
   const getAllUser = async (params) => {
     const response = await getUserList(params);
-    // console.log('userlist response', response);
     return {
       data: response.data,
       // success 请返回 true，
@@ -24,7 +21,7 @@ const UserList = () => {
     };
   };
   // 函数---调用services接口对用户的禁用或解锁进行操作
-  const handleChageLock = async (id) => {
+  const handleChangeLock = async (id) => {
     const response = await changeUserLock(id);
     if (response.status === undefined) {
       message.success('操作成功');
@@ -72,7 +69,7 @@ const UserList = () => {
           unCheckedChildren="正常"
           defaultChecked={record.is_locked === 1}
           onChange={() => {
-            handleChageLock(record.id);
+            handleChangeLock(record.id);
           }}
         />,
       ],
@@ -104,7 +101,7 @@ const UserList = () => {
       <ProTable
         columns={columns}
         actionRef={actionRef}
-        request={async (params = {}) => await getAllUser(params)}
+        request={(params = {}) => getAllUser(params)}
         editable={{
           type: 'multiple',
         }}
@@ -138,19 +135,6 @@ const UserList = () => {
           editId={editId}
         />
       )}
-      {/*       <Create
-        isModalVisible={isCreateModalVisible}
-        isShowCreateModal={isShowCreateModal}
-        actionRef={actionRef}
-      />
-      {!isEditModalVisible ? null : (
-        <Edit
-          isModalVisible={isEditModalVisible}
-          isShowEditModal={isShowEditModal}
-          actionRef={actionRef}
-          editId={editId}
-        />
-      )} */}
     </PageContainer>
   );
 };
