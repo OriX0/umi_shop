@@ -39,6 +39,7 @@ const UserList = () => {
       // console.log('父组件', editId);
       setModalVisible(show);
     } else {
+      setEditId(id);
       setModalVisible(show);
     }
   };
