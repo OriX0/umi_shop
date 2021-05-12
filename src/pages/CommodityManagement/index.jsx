@@ -11,7 +11,6 @@ const CommodityManagement = () => {
   // 函数---调用services接口获取所有的商品列表
   const getAllGoods = async (params) => {
     const response = await getGoodsList(params);
-    console.log('商品数据：', response);
     return {
       data: response.data,
       // success 请返回 true，
@@ -40,9 +39,8 @@ const CommodityManagement = () => {
   // 状态---修改当前的id
   const [editId, setEditId] = useState(undefined);
   const changeModalShow = (show, id = undefined) => {
+    setEditId(id);
     if (id) {
-      setEditId(id);
-      console.log('父组件', editId);
       setModalVisible(show);
     } else {
       setModalVisible(show);
