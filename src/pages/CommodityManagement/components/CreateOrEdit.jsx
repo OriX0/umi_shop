@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ProFormText,
-  ProFormDigit,
-  ProFormTextArea,
-  ProFormUploadButton,
-} from '@ant-design/pro-form';
-import { Modal, message, Skeleton, Cascader } from 'antd';
+import ProForm, { ProFormText, ProFormDigit, ProFormTextArea } from '@ant-design/pro-form';
+import { Modal, message, Skeleton, Cascader, Button, Form } from 'antd';
 import { addGoods, updateGoods, getGoodsInfo } from '@/services/goods';
 import { getCategoryList } from '@/services/category';
+import AliOssUpload from '@/components/AliOssUpload';
+import { UploadOutlined } from '@ant-design/icons';
 
 const CreateOrEdit = (props) => {
   const { isModalVisible, isShowModal, actionRef, editId } = props;
@@ -33,6 +30,12 @@ const CreateOrEdit = (props) => {
       isShowModal(false);
     }
   };
+  // 使用useFrom生成上传from的实例
+  const [uploadForm] = ProForm.useForm();
+  // 设置上传from后改变from表单cover值的方法
+  const setUploadFrom = (fileKey) => {
+    uploadForm.setFieldsValue({ cover: fileKey });
+  };
   // 在组件渲染后 去获取当前该id的用户详情
   useEffect(async () => {
     console.log('now type', type);
@@ -55,15 +58,18 @@ const CreateOrEdit = (props) => {
       onCancel={() => isShowModal(false)}
       footer={null}
       destroyOnClose={true}
+      forceRender={true}
     >
       {initData === null && editId !== undefined ? (
         <Skeleton paragraph={{ rows: 4 }} />
       ) : (
         <ProForm
           onFinish={(values) => {
-            handleSubmit(values);
+            console.log(values);
+            // handleSubmit(values);
           }}
           initialValues={initData}
+          form={uploadForm}
         >
           <ProForm.Item
             label="分类"
@@ -138,7 +144,22 @@ const CreateOrEdit = (props) => {
               },
             ]}
           />
-          <ProFormUploadButton name="cover" label="封面图上床" action="/upload.do" />
+          <ProForm.Item
+            label="封面图上传"
+            name="cover"
+            rules={[
+              {
+                required: true,
+                message: '请上传该产品封面图',
+              },
+            ]}
+          >
+            <div>
+              <AliOssUpload setUploadFrom={setUploadFrom} accept="image/*">
+                <Button icon={<UploadOutlined />}>点我上传</Button>
+              </AliOssUpload>
+            </div>
+          </ProForm.Item>
           <ProFormTextArea
             width="md"
             name="details"
