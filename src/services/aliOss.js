@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-12 11:09:43
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-12 11:15:50
+ * @LastEditTime: 2021-05-13 13:14:43
  */
 import request from '@/utils/request';
 export async function getOssToken() {

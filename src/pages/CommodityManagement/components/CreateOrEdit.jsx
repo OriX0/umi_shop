@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ProForm, { ProFormText, ProFormDigit, ProFormTextArea } from '@ant-design/pro-form';
-import { Modal, message, Skeleton, Cascader, Button, Form } from 'antd';
+import { Modal, message, Skeleton, Cascader, Button } from 'antd';
 import { addGoods, updateGoods, getGoodsInfo } from '@/services/goods';
 import { getCategoryList } from '@/services/category';
-import AliOssUpload from '@/components/AliOssUpload';
 import { UploadOutlined } from '@ant-design/icons';
+import AliOssUpload from '@/components/AliOssUpload';
+import RichTextEditor from '@/components/RichTextEditor';
 
 const CreateOrEdit = (props) => {
   const { isModalVisible, isShowModal, actionRef, editId } = props;
@@ -17,13 +18,15 @@ const CreateOrEdit = (props) => {
   // 新建和编辑modal的提交按钮点击后的响应
   const handleSubmit = async function (params) {
     let response;
+    const subParams = { ...params, category_id: params.category_id[1] };
+    console.log('subParams: ', subParams);
     if (editId) {
-      response = await updateGoods(editId, params);
+      response = await updateGoods(editId, subParams);
     } else {
-      response = await addGoods(params);
+      response = await addGoods(subParams);
     }
     if (response.status === undefined) {
-      message.success(`${type}修改成功`);
+      message.success(`${type}成功`);
       // 刷新表格数据
       actionRef.current.reload();
       // 关闭模态框
@@ -31,10 +34,14 @@ const CreateOrEdit = (props) => {
     }
   };
   // 使用useFrom生成上传from的实例
-  const [uploadForm] = ProForm.useForm();
+  const [modalForm] = ProForm.useForm();
   // 设置上传from后改变from表单cover值的方法
-  const setUploadFrom = (fileKey) => {
-    uploadForm.setFieldsValue({ cover: fileKey });
+  const setFormCover = (fileKey) => {
+    modalForm.setFieldsValue({ cover: fileKey });
+  };
+  // 富文本编辑器改变后对表单detail值设置的方法
+  const setFormDetails = (content) => {
+    modalForm.setFieldsValue({ details: content });
   };
   // 在组件渲染后 去获取当前该id的用户详情
   useEffect(async () => {
@@ -65,14 +72,14 @@ const CreateOrEdit = (props) => {
       ) : (
         <ProForm
           onFinish={(values) => {
-            console.log(values);
-            // handleSubmit(values);
+            handleSubmit(values);
           }}
           initialValues={initData}
-          form={uploadForm}
+          form={modalForm}
         >
           <ProForm.Item
             label="分类"
+            name="category_id"
             rules={[
               {
                 required: true,
@@ -155,22 +162,23 @@ const CreateOrEdit = (props) => {
             ]}
           >
             <div>
-              <AliOssUpload setUploadFrom={setUploadFrom} accept="image/*">
+              <AliOssUpload setUploadFrom={setFormCover} accept="image/*" showUploadList={true}>
                 <Button icon={<UploadOutlined />}>点我上传</Button>
               </AliOssUpload>
             </div>
           </ProForm.Item>
-          <ProFormTextArea
-            width="md"
+          <ProForm.Item
+            label="商品详情"
             name="details"
-            label="详情"
             rules={[
               {
                 required: true,
-                message: '输入该商品的详情',
+                message: '请输入商品详情',
               },
             ]}
-          />
+          >
+            <RichTextEditor setFormDetails={setFormDetails} />
+          </ProForm.Item>
         </ProForm>
       )}
     </Modal>

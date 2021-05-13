@@ -28,8 +28,10 @@ class AliyunOSSUpload extends React.Component {
 
     if (status === 'done') {
       message.success('文件上传成功');
-      console.log('fileList[0].key:', fileList[0].key);
-      this.props.setUploadFrom(fileList[0].key);
+      // console.log('fileList[0].key:', fileList[0].key);
+      const { setUploadFrom, setEditorImageUrl } = this.props;
+      if (setUploadFrom) setUploadFrom(fileList[0].key);
+      if (setEditorImageUrl) setEditorImageUrl(fileList[0].url);
     }
     if (onChange) {
       onChange([...fileList]);
@@ -76,12 +78,13 @@ class AliyunOSSUpload extends React.Component {
   };
 
   render() {
-    const { value, accept } = this.props;
+    const { value, accept, showUploadList } = this.props;
     const props = {
       name: 'file',
       fileList: value,
       action: this.state.OSSData.host,
       accept,
+      showUploadList,
       listType: 'picture',
       maxCount: 1,
       onChange: this.onChange,

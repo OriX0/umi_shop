@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-11 23:44:08
+ * @LastEditTime: 2021-05-13 14:34:31
  */
 import request from '@/utils/request';
 // 获取商品列表
@@ -28,6 +28,6 @@ export async function updateGoods(goodId, params) {
   return request.put(`/api/admin/goods/${goodId}`, { params });
 }
 // 增加单个商品
-export async function addGoods(goodId, params) {
-  return request.post(`/api/admin/goods/${goodId}`, { params });
+export async function addGoods(params) {
+  return request.post(`/api/admin/goods/`, { params });
 }
