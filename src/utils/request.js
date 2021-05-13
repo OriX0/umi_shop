@@ -4,11 +4,11 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-09 14:44:54
+ * @LastEditTime: 2021-05-13 16:17:44
  */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
-import { notification, message } from 'antd';
+import { message } from 'antd';
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -43,6 +43,12 @@ const errorHandler = async (error) => {
       for (let key in errors) {
         errorText += errors[key];
       }
+    }
+    if (status === 401) {
+      message.error('登录信息过期 请重新登录');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('userInfo');
+      history.replace('/user/login');
     }
     if (status === 400) {
       errorText += result.message;
