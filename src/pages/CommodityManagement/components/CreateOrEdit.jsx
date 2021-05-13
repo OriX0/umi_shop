@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProForm, { ProFormText, ProFormDigit, ProFormTextArea } from '@ant-design/pro-form';
-import { Modal, message, Skeleton, Cascader, Button } from 'antd';
+import { Modal, message, Skeleton, Cascader, Button, Image } from 'antd';
 import { addGoods, updateGoods, getGoodsInfo } from '@/services/goods';
 import { getCategoryList } from '@/services/category';
 import { UploadOutlined } from '@ant-design/icons';
@@ -54,7 +54,14 @@ const CreateOrEdit = (props) => {
     if (editId) {
       const response = await getGoodsInfo(editId);
       if (response.status === undefined) {
-        setInitData(response);
+        console.log('goods info:', response);
+        //  对于商品分类进行相关处理 避免渲染不正确
+        const { pid, id } = response.category;
+        let category_id;
+        if (pid === 0) category_id = [id];
+        else category_id = [pid, id];
+        const data = { ...response, category_id };
+        setInitData(data);
       }
     }
   }, []);
@@ -151,6 +158,8 @@ const CreateOrEdit = (props) => {
               },
             ]}
           />
+          <ProFormText width="md" name="cover" label="占位" hidden={true} />
+
           <ProForm.Item
             label="封面图上传"
             name="cover"
@@ -162,6 +171,11 @@ const CreateOrEdit = (props) => {
             ]}
           >
             <div>
+              {initData === null || !initData.cover_url ? (
+                ''
+              ) : (
+                <Image width={64} src={initData.cover_url} />
+              )}
               <AliOssUpload setUploadFrom={setFormCover} accept="image/*" showUploadList={true}>
                 <Button icon={<UploadOutlined />}>点我上传</Button>
               </AliOssUpload>
@@ -177,7 +191,7 @@ const CreateOrEdit = (props) => {
               },
             ]}
           >
-            <RichTextEditor setFormDetails={setFormDetails} />
+            <RichTextEditor setFormDetails={setFormDetails} initEditdata={initData.details} />
           </ProForm.Item>
         </ProForm>
       )}

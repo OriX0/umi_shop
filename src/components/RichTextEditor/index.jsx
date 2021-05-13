@@ -11,7 +11,9 @@ import './index.less';
 export default class EditorDemo extends React.Component {
   state = {
     // 创建一个空的editorState作为初始值
-    editorState: BraftEditor.createEditorState(null),
+    editorState: BraftEditor.createEditorState(
+      this.props.initEditdata ? this.props.initEditdata : null,
+    ),
   };
 
   handleEditorChange = (editorState) => {
