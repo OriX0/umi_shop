@@ -4,7 +4,7 @@
  * @Author: OriX
  * @Date: 2021-05-05 21:01:35
  * @LastEditors: OriX
- * @LastEditTime: 2021-05-09 20:50:37
+ * @LastEditTime: 2021-05-14 14:44:23
  */
 import request from '@/utils/request';
 export async function query() {
@@ -42,8 +42,8 @@ export async function addUser(params) {
   return request.post('/api/admin/users', { params });
 }
 // 修改用户
-export async function updateUser(editId, params) {
-  return request.put(`/api/admin/users/${editId}`, { params });
+export async function updateUser(editId, data) {
+  return request.put(`/api/admin/users/${editId}`, { data });
 }
 
 // 获取用户详情
